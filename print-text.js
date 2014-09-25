@@ -36,12 +36,12 @@ function printText (appName, appDir, filetype, contents, additionalVariables) {
 }
 
 
-function printFile (appName, appDir, file, callback) {
+function printFile (appName, appDir, file, additionalVariables) {
   fs.readFile(file, 'utf8', function (err, contents) {
     if (err)
       throw err
 
-    printText(appName, appDir, path.extname(file).replace(/^\./, ''), contents, callback)
+    printText(appName, appDir, path.extname(file).replace(/^\./, ''), contents, additionalVariables)
   })
 }
 

@@ -5,6 +5,7 @@ const argv       = require('optimist').argv
     , map        = require('map-async')
     , msee       = require('msee')
     , chalk      = require('chalk')
+    , xtend      = require('xtend')
 
 
 const showMenu  = require('./menu')
@@ -145,7 +146,7 @@ function Workshopper (options) {
       return error('No such exercise: ' + name)
 
     if (exercise.requireSubmission !== false && argv._.length == 1)
-      return error('Usage:', this.appName, argv._[0], 'mysubmission.js')
+      return error('Usage:', this.appName, argv._[0], exercise.submissionName)
 
     return this.execute(exercise, argv._[0], argv._.slice(1))
   }
@@ -439,6 +440,10 @@ Workshopper.prototype.loadExercise = function (name) {
 
   exercise.init(this, meta.id, meta.name, meta.dir, meta.number)
 
+  if (!exercise.submissionName) {
+    exercise.submissionName = 'submission.js'
+  }
+
   return exercise
 }
 
@@ -483,8 +488,14 @@ function onselect (name) {
                  exerciseText,
                  exercise.additionalVariables)
 
-      if (this.footerFile)
-        print.file(this.appName, this.appDir, this.footerFile)
+      if (this.footerFile) {
+        var additionalVariables = xtend(exercise.additionalVariables,
+                                        { submissionName: exercise.submissionName})
+        print.file(this.appName,
+                   this.appDir,
+                   this.footerFile,
+                   additionalVariables)
+      }
 
     }.bind(this))
   }.bind(this))
