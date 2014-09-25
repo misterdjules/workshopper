@@ -1,6 +1,7 @@
 const fs          = require('fs')
     , path        = require('path')
     , colorsTmpl  = require('colors-tmpl')
+    , xtend       = require('xtend')
     , msee        = require('msee')
     , mseeOptions = {
           paragraphStart: ''
@@ -8,11 +9,12 @@ const fs          = require('fs')
       }
 
 
-function printText (appName, appDir, filetype, contents) {
+function printText (appName, appDir, filetype, contents, additionalVariables) {
   var variables = {
       appname : appName
     , rootdir : appDir
   }
+  variables = xtend(variables, additionalVariables)
 
   contents = colorsTmpl(contents)
 

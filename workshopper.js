@@ -477,7 +477,11 @@ function onselect (name) {
       if (err)
         return error('Error loading exercise text:', err.message || err)
 
-      print.text(this.appName, this.appDir, type, exerciseText)
+      print.text(this.appName,
+                 this.appDir,
+                 type,
+                 exerciseText,
+                 exercise.additionalVariables)
 
       if (this.footerFile)
         print.file(this.appName, this.appDir, this.footerFile)
